@@ -1,0 +1,77 @@
+.process {}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 800px;
+}
+
+.stepRow {
+    position: relative;
+}
+
+.connector {
+    position: absolute;
+    left: 40px;
+    top: calc(100% - 24px);
+    bottom: 0;
+    width: 2px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--cyan), var(--violet));
+    z-index: 1;
+    opacity: 0.4;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    padding: 36px;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.stepNumber {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 72px;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stepContent {}
+
+.stepTitle {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.stepDesc {
+    font-size: 0.97rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+}
+
+@media (max-width: 640px) {
+    .step {
+        flex-direction: column;
+        gap: 16px;
+        padding: 28px 20px;
+    }
+
+    .stepNumber {
+        font-size: 2rem;
+    }
+
+    .connector {
+        left: 20px;
+    }
+}

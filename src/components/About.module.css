@@ -1,0 +1,160 @@
+.about {
+    overflow: hidden;
+}
+
+.orb {
+    width: 600px;
+    height: 600px;
+    top: 0;
+    left: -150px;
+    z-index: 0;
+    opacity: 0.5;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.imageWrap {
+    position: relative;
+}
+
+.imageBorder {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.imageBorder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg,
+            rgba(0, 212, 255, 0.1) 0%,
+            transparent 50%,
+            rgba(124, 58, 237, 0.1) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.floatingCard {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    padding: 12px 20px;
+    white-space: nowrap;
+}
+
+.floatingAvail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.availDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 10px #22c55e;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 10px #22c55e;
+    }
+
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 20px #22c55e;
+    }
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bio {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.bio strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.bio em {
+    color: var(--cyan);
+    font-style: normal;
+}
+
+.highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.highlight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+}
+
+.highlightIcon {
+    font-size: 1.4rem;
+}
+
+.highlightLabel {
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+
+    .imageWrap {
+        max-width: 480px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .highlights {
+        grid-template-columns: 1fr;
+    }
+}
