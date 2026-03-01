@@ -2,18 +2,45 @@
 import { useState, FormEvent } from "react";
 import styles from "./Contact.module.css";
 
+// ⬇ Paste your key from https://web3forms.com here
+const WEB3FORMS_KEY = "YOUR_ACCESS_KEY_HERE";
+
 export default function Contact() {
     const [sent, setSent] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const [form, setForm] = useState({ name: "", email: "", message: "" });
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        const subject = encodeURIComponent(`New inquiry from ${form.name}`);
-        const body = encodeURIComponent(
-            `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
-        );
-        window.location.href = `mailto:hello@lynxsoft.com.co?subject=${subject}&body=${body}`;
-        setSent(true);
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify({
+                    access_key: WEB3FORMS_KEY,
+                    subject: `New inquiry from ${form.name} via LynxSoft`,
+                    from_name: "LynxSoft Contact Form",
+                    name: form.name,
+                    email: form.email,
+                    message: form.message,
+                }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                setSent(true);
+                setForm({ name: "", email: "", message: "" });
+            } else {
+                setError("Something went wrong. Please email us directly.");
+            }
+        } catch {
+            setError("Network error. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -65,9 +92,9 @@ export default function Contact() {
                         {sent ? (
                             <div className={styles.success}>
                                 <div className={styles.successIcon}>🎉</div>
-                                <h3>Your email client is open!</h3>
+                                <h3>Message sent!</h3>
                                 <p>
-                                    Complete sending the email and we&apos;ll get back to you within
+                                    Thanks for reaching out — we&apos;ll get back to you within
                                     24 hours.
                                 </p>
                             </div>
@@ -114,9 +141,15 @@ export default function Contact() {
                                     />
                                 </div>
 
-                                <button type="submit" className={`btn-primary ${styles.submitBtn}`}>
-                                    <span>Send Message</span>
-                                    <span aria-hidden>→</span>
+                                {error && <p className={styles.error}>{error}</p>}
+
+                                <button
+                                    type="submit"
+                                    className={`btn-primary ${styles.submitBtn}`}
+                                    disabled={loading}
+                                >
+                                    <span>{loading ? "Sending…" : "Send Message"}</span>
+                                    {!loading && <span aria-hidden>→</span>}
                                 </button>
                             </form>
                         )}
